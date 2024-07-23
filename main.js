@@ -13,7 +13,8 @@ startElement.addEventListener('click',(e)=>{
   //initialize game
 factory.createWizard(state.wizard);
 
-  
+  //start game
+  engine.start();
 
 })
 
