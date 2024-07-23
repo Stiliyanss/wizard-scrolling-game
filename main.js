@@ -1,6 +1,6 @@
 // State initialization
 const state = {
-  player:'Pesho',
+  player:'Navcho the destroyer',
   wizard: {
       x: 100,
       y: 100,
@@ -15,6 +15,7 @@ const factory={
   createWizard(wizard){
     //create element
     const wizardElement=document.createElement('div');
+    wizardElement.classList.add('wizard');
 
     //set styles
     wizardElement.style.width=wizard.width + 'px';
@@ -41,7 +42,11 @@ const factory={
 
 // Game frames
 function newFrame(){
+ const wizardElement = document.querySelector('.wizard');
 
+ wizardElement.style.left = state.wizard.x++ +'px';
+
+ window.requestAnimationFrame(newFrame);
 }
 
 const startElement=document.querySelector('.game-start');
@@ -51,6 +56,9 @@ startElement.addEventListener('click',(e)=>{
 
   //initialize game
 factory.createWizard(state.wizard);
+
+  //start game
+  window.requestAnimationFrame(newFrame);
 
 })
 
