@@ -23,7 +23,7 @@ function modifyWizardPosition(){
  if(state.controls.KeyW && state.wizard.y>0){
    wizardElement.style.top = `${state.wizard.y-=config.speed}px`; 
  }
- if(state.controls.KeyD && state.wizard.y+state.wizard.height<gameArea.offsetHeight){
+ if(state.controls.KeyS && state.wizard.y+state.wizard.height<gameArea.offsetHeight){
    wizardElement.style.top = `${state.wizard.y+=config.speed}px`; 
  }
  
