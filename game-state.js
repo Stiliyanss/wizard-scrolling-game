@@ -5,6 +5,8 @@ export const state = {
       y: 100,
       width: 50,
       height: 50, 
+      lastMagicUse:0,
+      cooldown: 1000,
   },
   isGameOver: false,
   score:0,
@@ -15,5 +17,6 @@ export const state = {
     KeyD:false,
     KeyW:false,
     Space:false,
-  }
+  },
+
 };

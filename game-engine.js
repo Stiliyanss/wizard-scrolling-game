@@ -2,10 +2,23 @@ import { state } from "./game-state.js";
 import { config } from "./game-config.js";
 import { factory } from "./game-objects.js";
 const gameScore=document.querySelector('.game-score');
+const gameArea=document.querySelector('.game-area');
 // Game frames
 function newFrame(){
   //move wiazard
 modifyWizardPosition();
+
+//modify fireballs
+const fireballs=document.querySelectorAll('.fireball');
+for (const fireball of fireballs) {
+  if(fireball.offsetLeft>gameArea.offsetWidth){
+
+    fireball.remove();
+  }else{
+    fireball.style.left =fireball.offsetLeft + config.magicSpeed+'px';
+  }
+    
+}
 
   //apply score
   state.score+=config.timePoints;
@@ -18,7 +31,7 @@ modifyWizardPosition();
 // TODO: Fix the diagonal speed
 function modifyWizardPosition(){
   const wizardElement = document.querySelector('.wizard');
-  const gameArea=document.querySelector('.game-area');
+
   //wizard movement
  if(state.controls.KeyA && state.wizard.x > 0){
    wizardElement.style.left = `${state.wizard.x-=config.speed}px`; 
