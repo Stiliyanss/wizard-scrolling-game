@@ -6,7 +6,7 @@ const gameArea=document.querySelector('.game-area');
 // Game frames
 function newFrame(){
   //move wiazard
-modifyWizardPosition();
+ const wizardElement = modifyWizardPosition();
 
 //modify fireballs
 const fireballs=document.querySelectorAll('.fireball');
@@ -29,11 +29,33 @@ if(state.lastBugSpawn + state.maxBugSpawnTime * Math.random() < Date.now()){
 //move bugs
 const bugs=document.querySelectorAll('.bug');
 bugs.forEach(bug=>{
+  //remove outside bugs
   if(bug.offsetLeft<0){
     return bug.remove();
   }
+
+  //check wizard collision
+  const hasCollision= checkCollision(wizardElement, bug);
+  if(hasCollision){
+    state.isGameOver=true;
+  }
+
+  //check fireball collision
+   const fireballs=document.querySelectorAll('.fireball');
+   fireballs.forEach(fireball=>{
+    if(checkCollision(fireball,bug)){
+      fireball.remove();
+      bug.remove();
+      state.score+=config.bugPoints;
+     }
+   })
+
+  //move bugs
  bug.style.left=bug.offsetLeft-config.bugSpeed + 'px';
 });
+
+//collision detection
+
 
   //apply score
   state.score+=config.timePoints;
@@ -41,8 +63,24 @@ bugs.forEach(bug=>{
 //game over check
  if(!state.isGameOver){
   window.requestAnimationFrame(newFrame);
+ }else{
+  const gameOverArea=document.querySelector('.game-over');
+  gameOverArea.classList.remove('hidden');
  }
 }
+
+function checkCollision(firstElement, secondElement){
+    const first = firstElement.getBoundingClientRect();
+    const second = secondElement.getBoundingClientRect();
+
+    const hasCollision= !(first.top>second.bottom 
+        || first.bottom< second.top
+        || first.right < second.left
+        || first.left> second.right);
+
+    return hasCollision;
+}
+
 // TODO: Fix the diagonal speed
 function modifyWizardPosition(){
   const wizardElement = document.querySelector('.wizard');
@@ -68,7 +106,7 @@ function modifyWizardPosition(){
  }else{
   wizardElement.style.backgroundImage = 'url("images/wizard.png")';
  }
- 
+  return wizardElement;
 }
 
 export let engine={
